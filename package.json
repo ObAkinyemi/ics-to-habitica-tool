@@ -1,12 +1,12 @@
 {
-  "dependencies": {
-    "dotenv": "^17.2.2",
-    "type": "module"
-  },
   "name": "ics-to-habitica-tool",
   "version": "1.0.0",
   "description": "",
   "main": "script.js",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^17.2.2"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -18,7 +18,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/ObAkinyemi/ics-to-habitica-tool/issues"
   },
