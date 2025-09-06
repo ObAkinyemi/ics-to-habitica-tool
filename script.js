@@ -1,11 +1,15 @@
-// import dotenv as 'dotenv'
+const dotenv = require('dotenv');
+dotenv.config();
 
-/
+const xXclientXx = process.env.USER_ID;
+const X_api_key = process.env.API_KEY;
+const uid = process.env.USER_ID;
 
-// const xXclientXx = process.env.USER_ID;
-// const X_api_key = process.env.API_KEY;
-// const uid = process.env.USER_ID;
-
+const headers = new Headers();
+headers.append("x-client", xXclientXx);
+headers.append("x-api-key", X_api_key);
+headers.append("x-api-user", uid);
+headers.append("Content-Type", "application/json");
 postUserTasks();
 
 async function getUserTasks() {
@@ -55,7 +59,7 @@ async function postUserTasks() {
 
         const data = await res.json();
         console.log(data);
-        const result = await response.json();
+        const result = await res.json();
         console.log("Server Response:", result);
 
         if (response.ok) {
@@ -70,6 +74,8 @@ async function postUserTasks() {
 
 }
 
+
+// test function to figure out why I couldn't post tasks.
 async function postOneTask() {
     // --- Paste your credentials directly here ---
 
@@ -77,8 +83,7 @@ async function postOneTask() {
         const response = await fetch("https://habitica.com/api/v3/tasks/user", {
             method: "POST",
             // Headers are defined right inside the fetch call to be certain they are correct
-            headers: {
-            },
+            headers: headers,
             body: JSON.stringify({
                 text: 'Final test task',
                 type: 'todo'
@@ -99,5 +104,3 @@ async function postOneTask() {
     }
 }
 
-// Run the function
-// postOneTask();
