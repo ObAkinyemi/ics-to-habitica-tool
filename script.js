@@ -1,9 +1,6 @@
 // import dotenv as 'dotenv'
 
-const headers = new Headers();
-headers.append("x-client", "a52cd6ba-b2c4-4a6a-829e-aa407525c4aa-ics-to-habitica-tool");
-headers.append("x-api-key", "a4effcb3-e090-4201-a2e8-a83cd78aee77");
-headers.append("x-api-user", "a52cd6ba-b2c4-4a6a-829e-aa407525c4aa");
+/
 
 // const xXclientXx = process.env.USER_ID;
 // const X_api_key = process.env.API_KEY;
@@ -29,10 +26,11 @@ async function getUserTasks() {
 
 async function postUserTasks() {
     try {
+        // 1. Group all your task data into a single object
         const taskData = {
-            "text": "Update Habitica API Documentation - Tasks",
+            "text": "Update Habitica API Documentation1 - Tasks",
             "type": "todo",
-            "alias": "hab-api-tasks",
+            "alias": "hab-api-tasks1",
             "notes": "Update the tasks api on GitHub",
             "tags": [
                 "ed427623-9a69-4aac-9852-13deb9c190c3"
@@ -47,19 +45,59 @@ async function postUserTasks() {
                 }
             ],
             "priority": 2
-        };
+        }
+
         const res = await fetch("https://habitica.com/api/v3/tasks/user", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify(taskData),
+            body: JSON.stringify(taskData)
         });
+
         const data = await res.json();
-        
-        console.log("task was successfully sent in", data);
-        if(!res.ok){
-            console.error("a problem with the http request");
+        console.log(data);
+        const result = await response.json();
+        console.log("Server Response:", result);
+
+        if (response.ok) {
+            console.log("Task created successfully!");
+        } else {
+            console.error("HTTP Request failed with status:", response.status);
         }
+
     } catch (error) {
-        console.error(error);
+        console.error("A critical error occurred:", error);
+    }
+
+}
+
+async function postOneTask() {
+    // --- Paste your credentials directly here ---
+
+    try {
+        const response = await fetch("https://habitica.com/api/v3/tasks/user", {
+            method: "POST",
+            // Headers are defined right inside the fetch call to be certain they are correct
+            headers: {
+            },
+            body: JSON.stringify({
+                text: 'Final test task',
+                type: 'todo'
+            })
+        });
+
+        const result = await response.json();
+        console.log("Server Response:", result);
+
+        if (response.ok) {
+            console.log("Task created successfully!");
+        } else {
+            console.error("HTTP Request failed with status:", response.status);
+        }
+
+    } catch (error) {
+        console.error("A critical error occurred:", error);
     }
 }
+
+// Run the function
+// postOneTask();
