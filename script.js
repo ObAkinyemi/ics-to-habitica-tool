@@ -1,5 +1,9 @@
+const { rejects } = require('assert');
 const dotenv = require('dotenv');
 dotenv.config();
+const fs = require('fs');
+const { resolve } = require('path');
+const { promiseHooks } = require('v8');
 
 const xXclientXx = process.env.USER_ID;
 const X_api_key = process.env.API_KEY;
@@ -10,7 +14,28 @@ headers.append("x-client", xXclientXx);
 headers.append("x-api-key", X_api_key);
 headers.append("x-api-user", uid);
 headers.append("Content-Type", "application/json");
-postUserTasks();
+// postUserTasks();
+
+// example of a promie initialization statement
+let p = new Promise((resolve, reject) => {
+    let a = 1+1;
+    if (a=2){
+        resolve('Success');
+    } else {
+        reject('failed');
+    }
+})
+
+// example of a promise resolution statement
+p.then((message) => {
+    console.log('This is the then statement' + message);
+}).catch((message) => {
+    console.log('this is in the catch' + message)
+})
+
+// example of bad promise usage
+// console.log(getICSData("all assignment due dates.ics")
+// .then(data  => {return data}));
 
 async function getUserTasks() {
     try {
@@ -61,7 +86,7 @@ async function postUserTasks() {
         console.log(data);
         const result = await res.json();
         console.log("Server Response:", result);
-
+        
         if (response.ok) {
             console.log("Task created successfully!");
         } else {
@@ -71,36 +96,25 @@ async function postUserTasks() {
     } catch (error) {
         console.error("A critical error occurred:", error);
     }
-
+    
 }
 
-
-// test function to figure out why I couldn't post tasks.
-async function postOneTask() {
-    // --- Paste your credentials directly here ---
-
-    try {
-        const response = await fetch("https://habitica.com/api/v3/tasks/user", {
-            method: "POST",
-            // Headers are defined right inside the fetch call to be certain they are correct
-            headers: headers,
-            body: JSON.stringify({
-                text: 'Final test task',
-                type: 'todo'
-            })
+async function getICSData(file) {
+    return new Promise((resolve, reject) => {
+        const icsInfo = fs.readFile(file, function (err, data) {
+            if (err) {
+                reject('data not readable. Check syntax. Do desk check.');
+                return console.error(err);
+            }
+            resolve('successfully read data!');
+            return data;
         });
+    });
 
-        const result = await response.json();
-        console.log("Server Response:", result);
-
-        if (response.ok) {
-            console.log("Task created successfully!");
-        } else {
-            console.error("HTTP Request failed with status:", response.status);
-        }
-
-    } catch (error) {
-        console.error("A critical error occurred:", error);
-    }
 }
 
+getICSData("all assignment due dates.ics").then((data) => {
+    console.log("Data read successfully " + data.toString)
+}).catch((message) => {
+    console.log("data not read successfully. check syntax. do desk check.");
+});

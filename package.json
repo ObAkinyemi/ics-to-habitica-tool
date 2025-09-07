@@ -1,26 +1,54 @@
 {
   
   "dependencies": {
-    "dotenv": "^17.2.2"
+  
+    
+  "dotenv": "^17.2.2",
+  
+    
+  "fs": "^0.0.1-security"
+  
   },
+  
   "name": "ics-to-habitica-tool",
+  
   "version": "1.0.0",
+  
   "description": "",
+  
   "main": "script.js",
-  "devDependencies": {},
+  
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  
+    
+  "test": "echo \"Error: no test specified\" && exit 1"
+  
   },
+  
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ObAkinyemi/ics-to-habitica-tool.git"
+  
+    
+  "type": "git",
+  
+    
+  "url": "git+https://github.com/ObAkinyemi/ics-to-habitica-tool.git"
+  
   },
+  
   "keywords": [],
+  
   "author": "",
+  
   "license": "ISC",
+  
   "type": "commonjs",
+  
   "bugs": {
-    "url": "https://github.com/ObAkinyemi/ics-to-habitica-tool/issues"
+  
+    
+  "url": "https://github.com/ObAkinyemi/ics-to-habitica-tool/issues"
+  
   },
+  
   "homepage": "https://github.com/ObAkinyemi/ics-to-habitica-tool#readme"
 }
