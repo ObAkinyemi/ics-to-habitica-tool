@@ -16,27 +16,6 @@ headers.append("x-api-user", uid);
 headers.append("Content-Type", "application/json");
 // postUserTasks();
 
-// example of a promie initialization statement
-let p = new Promise((resolve, reject) => {
-    let a = 1+1;
-    if (a=2){
-        resolve('Success');
-    } else {
-        reject('failed');
-    }
-})
-
-// example of a promise resolution statement
-p.then((message) => {
-    console.log('This is the then statement' + message);
-}).catch((message) => {
-    console.log('this is in the catch' + message)
-})
-
-// example of bad promise usage
-// console.log(getICSData("all assignment due dates.ics")
-// .then(data  => {return data}));
-
 async function getUserTasks() {
     try {
         const res = await fetch("https://habitica.com/api/v3/tasks/user", {
@@ -101,20 +80,20 @@ async function postUserTasks() {
 
 async function getICSData(file) {
     return new Promise((resolve, reject) => {
-        const icsInfo = fs.readFile(file, function (err, data) {
+        fs.readFile(file, function (err, data) {
             if (err) {
-                reject('data not readable. Check syntax. Do desk check.');
+                reject('data not readable. Check syntax. Do desk check.\n' + err);
                 return console.error(err);
             }
-            resolve('successfully read data!');
-            return data;
+            resolve('successfully read data!\n' + data);
         });
     });
 
 }
 
-getICSData("all assignment due dates.ics").then((data) => {
-    console.log("Data read successfully " + data.toString)
-}).catch((message) => {
-    console.log("data not read successfully. check syntax. do desk check.");
+getICSData("all assignment due dates.ics").then((msg) => {
+    console.log(msg);
+}).catch((error) => {
+    console.log(error.name + "\n" + error.message + "\ndata not read successfully. check syntax. do desk check.");
 });
+
