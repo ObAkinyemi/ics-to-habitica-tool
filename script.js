@@ -93,8 +93,8 @@ async function getICSData(file) {
 
 // I have to put all my functions into here. It's basically main, but not main.
 getICSData("all assignment due dates.ics").then((msg) => {
-    // console.log(msg + "\n brother you stink");
-    splitICSData(msg);
+    // console.log(msg + "\n we have an array of data.");
+    console.log(splitICSData(msg));
 }).catch((error) => {
     console.log(error.name + "\n" + error.message + "\ndata not read successfully. check syntax. do desk check.");
 });
@@ -102,8 +102,16 @@ getICSData("all assignment due dates.ics").then((msg) => {
 console.log(splitICSData(getICSData("all assignment due dates.ics")) + "\n splitting data");
 
 async function splitICSData(data){
-    for (event of data){
+    try {
+        // ics data turned into a string for iteration
+        stringData = data.toString();
+    
+        // stringified data split into an array.
+        let separatedEvents = stringData.split("\n");
+        return separatedEvents;
         
+    } catch (error) {
+        console.error(error.name + ":\n" + error.message);
     }
-    console.log(data + "\n we got the data.");
+    
 }
