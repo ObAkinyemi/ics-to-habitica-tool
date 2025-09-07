@@ -91,9 +91,19 @@ async function getICSData(file) {
 
 }
 
+// I have to put all my functions into here. It's basically main, but not main.
 getICSData("all assignment due dates.ics").then((msg) => {
-    console.log(msg);
+    // console.log(msg + "\n brother you stink");
+    splitICSData(msg);
 }).catch((error) => {
     console.log(error.name + "\n" + error.message + "\ndata not read successfully. check syntax. do desk check.");
 });
 
+console.log(splitICSData(getICSData("all assignment due dates.ics")) + "\n splitting data");
+
+async function splitICSData(data){
+    for (event of data){
+        
+    }
+    console.log(data + "\n we got the data.");
+}
