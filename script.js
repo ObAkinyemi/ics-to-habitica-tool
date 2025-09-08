@@ -2,6 +2,7 @@ const { rejects } = require('assert');
 const dotenv = require('dotenv');
 dotenv.config();
 const fs = require('fs');
+const { type } = require('os');
 const { resolve } = require('path');
 const { promiseHooks } = require('v8');
 
@@ -103,12 +104,32 @@ console.log(splitICSData(getICSData("all assignment due dates.ics")) + "\n split
 
 async function splitICSData(data){
     try {
+        // let eachEvent = [];
         // ics data turned into a string for iteration
         stringData = data.toString();
-    
+        
         // stringified data split into an array.
         let separatedEvents = stringData.split("\n");
-        return separatedEvents;
+        // return separatedEvents;
+
+        
+
+        // the split data is then split further into a 2D array with each event in it's own array.
+        for (let i = 0; i < separatedEvents.length-800; i++){
+            const oneEvent = [];
+            if (separatedEvents[i].startsWith('BEGIN') || separatedEvents[i].startsWith('END') && !separatedEvents[i].startsWith('BEGIN:VCALENDAR') && !separatedEvents[i].startsWith('END:VCALENDAR')){
+                console.log("event start: " + i);
+                console.log(separatedEvents[i]);
+
+                // console.log(separatedEvents[i]);
+            } else {
+                oneEvent.push(separatedEvents[i]);
+                console.log(oneEvent);
+            }
+            
+        }
+        
+
         
     } catch (error) {
         console.error(error.name + ":\n" + error.message);
