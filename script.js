@@ -15,7 +15,7 @@ headers.append("x-client", xXclientXx);
 headers.append("x-api-key", X_api_key);
 headers.append("x-api-user", uid);
 headers.append("Content-Type", "application/json");
-// postUserTasks();
+postUserTasks();
 
 async function getUserTasks() {
     try {
@@ -37,10 +37,11 @@ async function postUserTasks() {
     try {
         // 1. Group all your task data into a single object
         const taskData = {
-            "text": "Update Habitica API Documentation1 - Tasks",
+            "text": "Update Habitica API Documentation2 - Tasks",
             "type": "todo",
-            "alias": "hab-api-tasks1",
+            "alias": "hab-api-tasks2",
             "notes": "Update the tasks api on GitHub",
+            "date": "2025-09-28",
             "tags": [
                 "ed427623-9a69-4aac-9852-13deb9c190c3"
             ],
@@ -64,17 +65,16 @@ async function postUserTasks() {
 
         const data = await res.json();
         console.log(data);
-        const result = await res.json();
-        console.log("Server Response:", result);
+        console.log("Server Response:", data);
         
-        if (response.ok) {
+        if (res.ok) {
             console.log("Task created successfully!");
         } else {
-            console.error("HTTP Request failed with status:", response.status);
+            console.error("HTTP Request failed with status:", res.status);
         }
 
     } catch (error) {
-        console.error("A critical error occurred:", error);
+        console.error("A critical error occurred:" + error.name + "\n" + error.message);
     }
     
 }
@@ -95,7 +95,7 @@ async function getICSData(file) {
 // I have to put all my functions into here. It's basically main, but not main.
 getICSData("all assignment due dates.ics").then((msg) => {
     // console.log(msg + "\n we have an array of data.");
-    console.log(splitICSData(msg));
+    cleanedICSData = splitICSData(msg);
 }).catch((error) => {
     console.log(error.name + "\n" + error.message + "\ndata not read successfully. check syntax. do desk check.");
 });
