@@ -100,39 +100,54 @@ getICSData("all assignment due dates.ics").then((msg) => {
     console.log(error.name + "\n" + error.message + "\ndata not read successfully. check syntax. do desk check.");
 });
 
-console.log(splitICSData(getICSData("all assignment due dates.ics")) + "\n splitting data");
+// Gemini wrote this function.
 
-async function splitICSData(data){
+async function splitICSData(data) {
     try {
-        // let eachEvent = [];
         // ics data turned into a string for iteration
-        stringData = data.toString();
-        
+        const stringData = data.toString();
+
         // stringified data split into an array.
-        let separatedEvents = stringData.split("\n");
-        // return separatedEvents;
+        const separatedEvents = stringData.split("\n");
 
-        
+        // This will be our final 2D array
+        const allBlocks = [];
+        // This will temporarily hold the lines for the block we are currently parsing
+        let currentBlock = null;
 
-        // the split data is then split further into a 2D array with each event in it's own array.
-        for (let i = 0; i < separatedEvents.length-800; i++){
-            const oneEvent = [];
-            if (separatedEvents[i].startsWith('BEGIN') || separatedEvents[i].startsWith('END') && !separatedEvents[i].startsWith('BEGIN:VCALENDAR') && !separatedEvents[i].startsWith('END:VCALENDAR')){
-                console.log("event start: " + i);
-                console.log(separatedEvents[i]);
+        // Loop through the entire array of lines
+        for (const line of separatedEvents) {
+            // Trim whitespace to make matching more reliable
+            const trimmedLine = line.trim();
 
-                // console.log(separatedEvents[i]);
-            } else {
-                oneEvent.push(separatedEvents[i]);
-                console.log(oneEvent);
+            // Check for the start of a new block (e.g., "BEGIN:VEVENT")
+            // We ignore the main "BEGIN:VCALENDAR"
+            if (trimmedLine.startsWith('BEGIN:') && trimmedLine !== 'BEGIN:VCALENDAR') {
+                // We found the start of a new block, so we create a new array for it
+                currentBlock = [trimmedLine];
             }
-            
+            // Check for the end of a block (e.g., "END:VEVENT")
+            else if (trimmedLine.startsWith('END:') && trimmedLine !== 'END:VCALENDAR') {
+                // Make sure we are actually inside a block before ending it
+                if (currentBlock) {
+                    // Add the "END" line to the block
+                    currentBlock.push(trimmedLine);
+                    // Add the completed block to our final 2D array
+                    allBlocks.push(currentBlock);
+                    // Reset currentBlock, so we are ready for the next one
+                    currentBlock = null;
+                }
+            }
+            // If we are currently inside a block, add the line to it
+            else if (currentBlock) {
+                currentBlock.push(trimmedLine);
+            }
         }
         
+        // Return the final 2D array
+        return allBlocks;
 
-        
     } catch (error) {
         console.error(error.name + ":\n" + error.message);
     }
-    
 }
